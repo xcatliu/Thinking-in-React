@@ -20432,78 +20432,94 @@
 /* 157 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var React = __webpack_require__(1);
 
 	var FilterableProductTable = React.createClass({
-	  displayName: "FilterableProductTable",
+	  displayName: 'FilterableProductTable',
 
+	  getInitialState: function getInitialState() {
+	    return {
+	      filterText: '',
+	      inStockOnly: false
+	    };
+	  },
 	  render: function render() {
 	    return React.createElement(
-	      "div",
+	      'div',
 	      null,
-	      React.createElement(SearchBar, null),
-	      React.createElement(ProductTable, { products: this.props.products })
+	      React.createElement(SearchBar, {
+	        filterText: this.state.filterText,
+	        inStockOnly: this.state.inStockOnly
+	      }),
+	      React.createElement(ProductTable, {
+	        products: this.props.products,
+	        filterText: this.state.filterText,
+	        inStockOnly: this.state.inStockOnly
+	      })
 	    );
 	  }
 	});
 
 	var SearchBar = React.createClass({
-	  displayName: "SearchBar",
+	  displayName: 'SearchBar',
 
 	  render: function render() {
 	    return React.createElement(
-	      "form",
+	      'form',
 	      null,
-	      React.createElement("input", { type: "text", placeholder: "Search..." }),
+	      React.createElement('input', { type: 'text', placeholder: 'Search...', value: this.props.filterText }),
 	      React.createElement(
-	        "p",
+	        'p',
 	        null,
-	        React.createElement("input", { type: "checkbox" }),
-	        " ",
-	        "Only show products in stock"
+	        React.createElement('input', { type: 'checkbox', checked: this.props.inStockOnly }),
+	        ' ',
+	        'Only show products in stock'
 	      )
 	    );
 	  }
 	});
 
 	var ProductTable = React.createClass({
-	  displayName: "ProductTable",
+	  displayName: 'ProductTable',
 
 	  render: function render() {
 	    var rows = [];
 	    var lastCategory = null;
-	    this.props.products.forEach(function (product) {
+	    this.props.products.forEach((function (product) {
+	      if (product.name.indexOf(this.props.filterText) === -1 || !product.stocked && this.props.inStockOnly) {
+	        return;
+	      }
 	      if (product.category !== lastCategory) {
 	        rows.push(React.createElement(ProductCategoryRow, { category: product.category, key: product.category }));
 	      }
 	      rows.push(React.createElement(ProductRow, { product: product, key: product.name }));
 	      lastCategory = product.category;
-	    });
+	    }).bind(this));
 	    return React.createElement(
-	      "table",
+	      'table',
 	      null,
 	      React.createElement(
-	        "thead",
+	        'thead',
 	        null,
 	        React.createElement(
-	          "tr",
+	          'tr',
 	          null,
 	          React.createElement(
-	            "th",
+	            'th',
 	            null,
-	            "Name"
+	            'Name'
 	          ),
 	          React.createElement(
-	            "th",
+	            'th',
 	            null,
-	            "Price"
+	            'Price'
 	          )
 	        )
 	      ),
 	      React.createElement(
-	        "tbody",
+	        'tbody',
 	        null,
 	        rows
 	      )
@@ -20512,15 +20528,15 @@
 	});
 
 	var ProductCategoryRow = React.createClass({
-	  displayName: "ProductCategoryRow",
+	  displayName: 'ProductCategoryRow',
 
 	  render: function render() {
 	    return React.createElement(
-	      "tr",
+	      'tr',
 	      null,
 	      React.createElement(
-	        "th",
-	        { colSpan: "2" },
+	        'th',
+	        { colSpan: '2' },
 	        this.props.category
 	      )
 	    );
@@ -20528,24 +20544,24 @@
 	});
 
 	var ProductRow = React.createClass({
-	  displayName: "ProductRow",
+	  displayName: 'ProductRow',
 
 	  render: function render() {
 	    var name = this.props.product.stocked ? this.props.product.name : React.createElement(
-	      "span",
-	      { style: { color: "red" } },
+	      'span',
+	      { style: { color: 'red' } },
 	      this.props.product.name
 	    );
 	    return React.createElement(
-	      "tr",
+	      'tr',
 	      null,
 	      React.createElement(
-	        "td",
+	        'td',
 	        null,
 	        name
 	      ),
 	      React.createElement(
-	        "td",
+	        'td',
 	        null,
 	        this.props.product.price
 	      )
