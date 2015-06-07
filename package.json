@@ -1,6 +1,6 @@
 {
   "name": "Thinking-in-React",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "An implement for Thinking in React",
   "main": "lib/FilterableProductTable.jsx",
   "scripts": {
