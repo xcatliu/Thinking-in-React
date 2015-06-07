@@ -20445,13 +20445,22 @@
 	      inStockOnly: false
 	    };
 	  },
+
+	  handleUserInput: function handleUserInput(filterText, inStockOnly) {
+	    this.setState({
+	      filterText: filterText,
+	      inStockOnly: inStockOnly
+	    });
+	  },
+
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      null,
 	      React.createElement(SearchBar, {
 	        filterText: this.state.filterText,
-	        inStockOnly: this.state.inStockOnly
+	        inStockOnly: this.state.inStockOnly,
+	        onUserInput: this.handleUserInput
 	      }),
 	      React.createElement(ProductTable, {
 	        products: this.props.products,
@@ -20465,15 +20474,29 @@
 	var SearchBar = React.createClass({
 	  displayName: 'SearchBar',
 
+	  handleChange: function handleChange() {
+	    this.props.onUserInput(this.refs.filterTextInput.getDOMNode().value, this.refs.inStockOnlyInput.getDOMNode().checked);
+	  },
 	  render: function render() {
 	    return React.createElement(
 	      'form',
 	      null,
-	      React.createElement('input', { type: 'text', placeholder: 'Search...', value: this.props.filterText }),
+	      React.createElement('input', {
+	        type: 'text',
+	        placeholder: 'Search...',
+	        value: this.props.filterText,
+	        ref: 'filterTextInput',
+	        onChange: this.handleChange
+	      }),
 	      React.createElement(
 	        'p',
 	        null,
-	        React.createElement('input', { type: 'checkbox', checked: this.props.inStockOnly }),
+	        React.createElement('input', {
+	          type: 'checkbox',
+	          checked: this.props.inStockOnly,
+	          ref: 'inStockOnlyInput',
+	          onChange: this.handleChange
+	        }),
 	        ' ',
 	        'Only show products in stock'
 	      )
@@ -20485,6 +20508,7 @@
 	  displayName: 'ProductTable',
 
 	  render: function render() {
+	    console.log(this.props);
 	    var rows = [];
 	    var lastCategory = null;
 	    this.props.products.forEach((function (product) {
