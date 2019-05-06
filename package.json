@@ -22,13 +22,13 @@
   },
   "homepage": "https://github.com/xcatliu/Thinking-in-React",
   "devDependencies": {
-    "babel-core": "^5.5.5",
-    "babel-loader": "^5.1.4",
-    "ecstatic": "^0.8.0",
-    "npmlog": "^1.2.1",
-    "webpack": "^1.9.10"
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.5",
+    "ecstatic": "^4.1.2",
+    "npmlog": "^4.1.2",
+    "webpack": "^4.30.0"
   },
   "dependencies": {
-    "react": "^0.13.3"
+    "react": "^16.8.6"
   }
 }
